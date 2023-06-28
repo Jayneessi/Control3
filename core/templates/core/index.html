@@ -1,0 +1,47 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+{% load custom_filters %}
+
+{% block stylesheet %}
+    <link href="{% static 'core/css/index.css'%}" rel="stylesheet">
+{% endblock stylesheet %}
+
+{% block content %}
+  <a href="{% url 'index' %}"></a>
+  
+  {% if productos %}
+    <div class="container-fluid">
+      <div class="row">
+        {% for producto in productos %}
+          <div class="card col-sm-12 col-md-6 col-lg-3 col-xl-2 border border-1 m-2 pt-3 pb-4" style="width: 15.2rem;">
+            <img src="/media/{{ producto.imagen }}" class="producto-md" class="card-img-top" alt="">
+            <div class="card-body">
+              <h6 class="card-title">
+              {{ producto.nombre }}
+              </h6>
+              <h7 class="card-title"> 
+                {{ producto.precio|formatear_dinero }}
+              </h7>
+              <p class="card-text descripcion" data-toggle="tooltip" title="{{ producto.descripcion }}"> 
+                {{ producto.descripcion }} 
+              </p>
+            </div>
+            <div class="card-footer text-center custom-card-footer">
+              <a href="{% url 'ficha' producto.id %}" class="btn btn-primary btn-sm">
+                Comprar
+              </a>
+              <a href="{% url 'ficha' producto.id %}" class="btn btn-primary btn-sm">
+                Subir al carrito
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% else %}
+    <h2>No se encontraron productos</h2>
+  {% endif %}
+
+{% endblock content %}
